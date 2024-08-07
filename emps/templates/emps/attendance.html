@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block title %}Attendance{% endblock %}
+{% block body %}
+<div class="container mt-4">
+    <!-- Attendance Form -->
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white text-center">
+            <h3 class="card-title mb-0"><i class="fas fa-clipboard-list"></i> Attendance</h3>
+        </div>
+        <div class="card-body">
+            <form method="post" class="row g-3">
+                {% csrf_token %}
+
+                <div class="col-md-3">
+                    <label for="date" class="form-label">Date</label>
+                    <input type="text" name="date" id="date" class="form-control" value="{{ current_date }}" readonly>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="employee" class="form-label">Staffer</label>
+                    <select name="employee_id" id="employee" class="form-select">
+                        {% for employee in employees %}
+                        <option value="{{ employee.id }}">{{ employee.first }} {{ employee.last }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select name="status" id="status" class="form-select">
+                        <option value="Present">Present</option>
+                        <option value="Leave">Leave</option>
+                        <option value="Unavailable">Unavailable</option>
+                    </select>
+                </div>
+                <div class="col-md-3 align-self-end">
+                    <button type="submit" name="sign_in" class="btn btn-outline-primary">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+
+    <!-- Attendance Records -->
+    <div class="card shadow mt-4">
+        <div class="card-header bg-secondary text-white">
+            <h3 class="card-title mb-0"><i class="fas fa-book"></i> Attendance Records</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>First In</th>
+                        <th>Last Out</th>
+                        <th>Employee Name</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for attendance in attendances %}
+                    <tr>
+                        <td>{{ attendance.date }}</td>
+                        <td>{{ attendance.first_in }}</td>
+                        <td>{{ attendance.last_out }}</td>
+                        <td>{{ attendance.employee.first }} {{ attendance.employee.last }}</td>
+                        <td>{{ attendance.status }}</td>
+                        <td>
+                            {% if not attendance.last_out %}
+                            <form method="POST" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="attendance_id" value="{{ attendance.id }}">
+                                <button type="submit" name="sign_out" class="btn btn-outline-danger btn-sm">
+                                    <i class="fas fa-sign-out-alt"></i> Sign Out
+                                </button>
+                            </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block body %}
+<div class="btn-container mt-5">
+    <div class="card shadow-sm text-white" style="border: none; border-radius: 10px; background: linear-gradient(135deg, #fbca29 0%, #fda085 100%); width: 300px;">
+        <div class="card-body d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+                <div class="icon-container" style="background: rgba(255, 255, 255, 0.2); border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-user-shield fa-2x"></i>
+                </div>
+                <div class="ms-3">
+                    <h2 class="card-title mb-0">{{ superuser_count }}</h2>
+                    <p class="card-text mb-0" style="font-size: 0.9rem; color: #d1d1d1;">Superusers Total Count</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm text-white" style="border: none; border-radius: 10px; background: linear-gradient(135deg, #d05fef 0%, #9f25fc 100%); width: 300px;">
+        <div class="card-body d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+                <div class="icon-container" style="background: rgba(255, 255, 255, 0.2); border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-building fa-2x"></i>
+                </div>
+                <div class="ms-3">
+                    <h2 class="card-title mb-0">{{ departments|length }}</h2>
+                    <p class="card-text mb-0" style="font-size: 0.9rem; color: #d1d1d1;">Departments Total Count</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm text-white" style="border: none; border-radius: 10px; background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); width: 300px;">
+        <div class="card-body d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+                <div class="icon-container" style="background: rgba(255, 255, 255, 0.2); border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-users fa-2x"></i>
+                </div>
+                <div class="ms-3">
+                    <h2 class="card-title mb-0">{{ employees|length }}</h2>
+                    <p class="card-text mb-0" style="font-size: 0.9rem; color: #d1d1d1;">Employee Total Count</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="employee-table mt-4">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Image</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Mobile Number</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+            <tr>
+                <td><img src="{{employee.image.url}}" alt="Employee Image" width="80" height="50"></td>
+                <td>{{ employee.first }}</td>
+                <td>{{ employee.last }}</td>
+                <td>{{ employee.mobile }}</td>
+                <td><a href="{% url 'employee_view' employee.id %}"><button class="btn btn-primary">View</button></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

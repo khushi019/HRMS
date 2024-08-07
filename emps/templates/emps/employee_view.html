@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Employee Details{% endblock %}
+{% block body %}
+<div class="employee-table mt-2 pt-3">
+    <div class="card">
+        <div class="card-header">
+            Employee Details
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <img src="{{employee.image.url}}" alt="Employee Image" width="170" height="160">
+                </div>
+                <div class="col-md-9">
+                    <h5 class="card-title">{{ employee.first }} {{ employee.last }}</h5>
+                    <p class="card-text"><strong>Mobile:</strong> {{ employee.mobile }}</p>
+                    <p class="card-text"><strong>Email:</strong> {{ employee.email }}</p>
+                    <p class="card-text"><strong>Gender:</strong> {{ employee.gender }}</p>
+                    <p class="card-text"><strong>Department:</strong> {{ employee.department }}</p>
+                    <p class="card-text"><strong>Language:</strong> {{ employee.language }}</p>
+                    <p class="card-text"><strong>Salary:</strong> {{ employee.salary }}</p>
+                    <p class="card-text"><strong>Enrollment Date:</strong> {{ employee.enrollment }}</p>
+                    <p class="card-text"><strong>Account Number:</strong> {{ employee.account }}</p>
+                    <p class="card-text"><strong>Bank:</strong> {{ employee.bank }}</p>
+                    <a href="{% url 'employee_edit' employee.id %}" class="btn btn-primary">Edit</a>
+                    <a href="{% url 'employee_delete' employee.id %}" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

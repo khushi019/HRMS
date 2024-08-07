@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Management System | {% block title %} {% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, #4a4e69, #22223b);
+            color: #fff;
+            position: fixed;
+            height: 100%;
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            background: #3d3c42;
+            color: #fff;
+            text-align: center;
+            padding: 15px;
+            margin: 0;
+            border-radius: 5px;
+            height: 12.8%;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            padding: 15px;
+            border-bottom: 1px solid #444;
+            font-size: 16px;
+        }
+
+        .sidebar a:hover {
+            background: #575a6f;
+        }
+
+        .sidebar .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            color: #fff;
+            font-size: 16px;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .sidebar .dropdown-toggle:hover {
+            background: #575a6f;
+        }
+
+        .sidebar .dropdown-menu {
+            background: #343a40;
+            border: none;
+            border-radius: 0;
+            margin: 0;
+        }
+
+        .sidebar .dropdown-item {
+            color: #fff;
+            padding: 10px 15px;
+        }
+
+        .sidebar .dropdown-item:hover {
+            background: #575a6f;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            width: calc(100% - 250px);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            margin: 0;
+            position: fixed;
+            width: calc(100% - 250px);
+            top: 0;
+            left: 250px;
+            z-index: 1000;
+        }
+
+        .btn-container {
+            margin: 100px 0 20px 0;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .btn-container .btn {
+            width: 30%;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            color: #fff;
+            background: #6c757d;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-container .btn:hover {
+            background: #5a6268;
+            color: white;
+        }
+
+        .employee-table {
+            background-color: #f0f4f8;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .employee-table img {
+            border-radius: 50%;
+        }
+
+        @media (max-width: 767.98px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-top: 0px;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .header {
+                width: 100%;
+                left: 0;
+            }
+        }
+    </style>
+    {% block style %}
+    {% endblock %}
+</head>
+
+<body>
+    <div class="sidebar" style="padding: 0%;">
+        <h2>HRMS</h2>
+        <a href="{% url 'employee_add' %}">
+            <i class="fas fa-user-plus"></i> New Employee +
+        </a>
+        <a href="{% url 'home' %}">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+        <a href="{% url 'employee_all' %}">
+            <i class="fas fa-users"></i> Employees
+        </a>
+        <a href="{% url 'attendance'  %}">
+            <i class="fas fa-clipboard-list"></i>  Attendance
+        </a>
+        <a href="{% url 'leave'  %}">
+            <i class="fas fa-calendar-alt"></i>  Leave
+        </a>
+        <div class="dropdown">
+            <button class="dropdown-toggle" type="button" id="departmentsDropdown" data-bs-toggle="collapse" data-bs-target="#departmentsMenu" aria-expanded="false">
+                <i class="fas fa-building"></i> Departments
+            </button>
+            <div id="departmentsMenu" class="collapse">
+                <ul class="list-unstyled">
+                    {% for department in departments %}
+                    <li><a class="dropdown-item" href="{% url 'department_detail' department.id %}">{{ department.name }}</a></li>
+                    {% empty %}
+                    <li><a class="dropdown-item" href="#">No Departments Available</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <a href="{% url 'department' %}">
+            <i class="fas fa-plus"></i> Add Departments
+        </a>
+        <a href="{% url 'recruitment' %}">
+            <i class="fas fa-user-tie"></i> Recruitment
+        </a>
+        <a href="{% url 'payroll' %}">
+            <i class="fas fa-dollar-sign"></i> Payroll
+        </a>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <h2>HR Management System</h2>
+        </div>
+        <div class="pt-5 mt-4">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Department Information{% endblock %}
+
+{% block body %}
+<div style="display: flex; align-items: center; justify-content: center;"> 
+<h3 class="card-title">Department Information</h3>
+</div>
+<hr>
+<br>
+<form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="text-center mt-2">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
+{% endblock %}

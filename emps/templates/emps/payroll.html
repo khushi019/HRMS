@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Payroll{% endblock %}
+{% block body %}
+<div class="employee-table mt-5 pt-5">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Image</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Account Number</th>
+                <th scope="col">Bank Name</th>
+                <th scope="col">Salary</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+            <tr>
+                <td><img src="{{employee.image.url}}" alt="Employee Image" width="80" height="50"></td>
+                <td>{{ employee.first }}</td>
+                <td>{{ employee.last }}</td>
+                <td>{{ employee.account }}</td>
+                <td>{{ employee.bank }}</td>
+                <td>{{ employee.salary }}</td>
+                <td>
+                    <form method="post" action="{% url 'payroll' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="employee_id" value="{{ employee.id }}">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#transactionModal-{{ employee.id }}">
+                            <i class="fas fa-paper-plane"></i> Pay
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="transactionModal-{{ employee.id }}" tabindex="-1" aria-labelledby="transactionModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <img src="https://png.pngtree.com/png-vector/20191113/ourmid/pngtree-green-check-mark-icon-flat-style-png-image_1986021.jpg"
+                                            alt="img" class="img-fluid mb-3" style="width: 30%; height: 20%; display: block; margin: 0 auto;">
+                                        <div><strong><h3>Transaction Successful</h3></strong></div>
+                                        
+                                        <h6 style="color: gray;">The payment of {{ employee.salary }} has been deposited into the account number {{ employee.account }} at {{ employee.bank }}</h6>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-secondary">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
